@@ -10,6 +10,7 @@
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="uikit/dist/js/uikit.min.js"></script>
     <script src="uikit/dist/js/uikit-icons.min.js"></script>
+    <script src="fakedb.js"></script>
     <title>Blog</title>
 </head>
 
@@ -23,7 +24,29 @@
     <br>
 
     <div class="uk-container uk-container-small">
-        <article class="uk-article">
+        <div class="uk-inline uk-width-1-1">
+            <button type="button" class="uk-width-1-1 uk-button-large uk-button-primary">Nova Postagem</button>
+            <div uk-dropdown="mode: click" class="uk-width-1-1">
+                <form id="form-postagem">
+                    <div id=""><label for="inputNome">Nome </label><input type="text" id="inputNome"
+                            placeholder="Insira seu nome"></div>
+                    <div id=""><label for="inputTitulo">Título </label><input type="text" id="inputTitulo"
+                            placeholder="Insira o título da postagem"></div>
+                    <div id=""><label for="inputCorpo">Postagem </label><textarea type="text"
+                            class="uk-textarea uk-form-large" id="inputCorpo"
+                            placeholder="Insira o conteúdo da postagem"></textarea></div>
+                    <div id=""><label for="inputImg">Imagem </label><input type="file" id="inputImg"></div>
+                    <br>
+                    <div id=""><button id="inputBtn" type="button"
+                            class="uk-align-center uk-width-1-2 uk-button-large uk-button-primary">Publicar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <main id="main">
+
+        </main>
+        <!-- <article class="uk-article">
 
             <h1 class="uk-article-title">Título</h1>
 
@@ -63,43 +86,46 @@
                         </div>
                     </div>
                 </div>
-        </article>
+        </article> -->
     </div>
 
-    <input type="file" id="getimage">
-    <fieldset>
-            <legend>Imagem Carregada | JSON com a imagem</legend>
-            <div id="imgstore"></div>
-            <div id="jsonstore"></div>
-        </fieldset>
-   
-
     <script>
-        $(document).ready(function () {
-            $('.more').on('click', function () {
-                $('.comments').toggle();
-            });
+        $("#inputBtn").click(function () {
+            var data = new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear();
+            let campoNome = $("#inputNome").val();
+            let campoTitulo = $("#inputTitulo").val();
+            let campoCorpo = $('#inputCorpo').val();
+            let campoImagem = $('#inputImg').val();
+            let novoId = db.data[db.data.length - 1].id + 1;
+            let novaPostagem = {
+                id: novoId,
+                data: data,
+                nome: campoNome,
+                titulo: campoTitulo,
+                corpo: campoCorpo,
+                imagem: campoImagem,
+                comentarios: [],
+                likes: 0
+            };
+            // Insere o novo objeto no array
+            db.data.push(novaPostagem);
+            alert("Postagem adicionada com sucesso");
+
+            // Atualiza os dados no Local Storage
+            localStorage.setItem('db', JSON.stringify(db));
+
+
+            // Reexibe as postagens
+            for (i = 0; i < db.data.length; i++) {
+                let postagem = db.data[i];
+                $("#main").append(
+                    `<article class="uk-article"><h1 class="uk-article-title">${postagem.titulo}</h1><p class="uk-article-meta">Escrito por ${postagem.nome} em ${postagem.data}.<div class="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light"data-src="${postagem.imagem}" uk-img></div><p class="uk-text-lead">${postagem.corpo}</p><div class="uk-grid-small uk-child-width-auto" uk-grid><div><button class="uk-button uk-button-text"><i uk-icon="heart">${postagem.likes} </i></button></div><div><a class="more" class="uk-button uk-button-text" href="#">X Comentários</a></div>`
+                );
+            }
+
+            //Limpa o formulario
+            $("#form-postagem")[0].reset();
         });
-
-        function imageHandler(e2) {
-
-            var jsonstore = document.getElementById ('jsonstore');
-            jsonstore.innerHTML = `{ "img": "${e2.target.result}" }`;
-
-        }
-
-        function loadimage(e1) {
-            var filename = e1.target.files[0];
-            var fr = new FileReader();
-            fr.onload = imageHandler;
-            fr.readAsDataURL(filename);
-        }
-
-        window.onload = function () {
-            var y = document.getElementById("getimage");
-            y.addEventListener('change', loadimage, false);
-        }
-
     </script>
 
 </body>
