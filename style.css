@@ -1,0 +1,10 @@
+#logo {
+    padding: 7px;
+    width: 65px;
+   display: block;
+   margin: 0 auto;
+}
+
+.comments {
+    display: none;
+}
