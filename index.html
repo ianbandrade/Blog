@@ -26,7 +26,7 @@
     <div class="uk-container uk-container-small">
         <div class="uk-inline uk-width-1-1">
             <button type="button" class="uk-width-1-1 uk-button-large uk-button-primary">Nova Postagem</button>
-            <div uk-dropdown="mode: click" class="uk-width-1-1">
+            <div id="form-postagem-container" uk-dropdown="mode: click" class="uk-width-1-1">
                 <form id="form-postagem">
                     <div id=""><label for="inputNome">Nome </label><input type="text" id="inputNome"
                             placeholder="Insira seu nome"></div>
@@ -86,16 +86,43 @@
                         </div>
                     </div>
                 </div>
-        </article> -->
+        </article> -->  
     </div>
 
     <script>
+    let imgDataURI = "";
+
+    function loadimage(e1) {        
+        var filename = e1.target.files[0];
+        var fr = new FileReader();
+        fr.onload = (imageHandler) => {imgDataURI = imageHandler.target.result};
+        fr.readAsDataURL(filename);
+    }
+
+     function exibir() {
+            let sortDB = db.data.sort(function(a, b){
+                return b.id - a.id
+            });
+            $("main").html(``);
+            for (i = 0; i < db.data.length; i++) {
+                let postagem = sortDB[i];
+                $("#main").append(
+                    `<article class="uk-article"><h1 class="uk-article-title">${postagem.titulo}</h1><p class="uk-article-meta">Escrito por ${postagem.nome} em ${postagem.data}.<div class="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light"data-src="${postagem.imagem}" uk-img></div><p class="uk-text-lead">${postagem.corpo}</p><div class="uk-grid-small uk-child-width-auto" uk-grid><div><button class="uk-button uk-button-text"><i uk-icon="heart">${postagem.likes} </i></button></div><div><a class="more" class="uk-button uk-button-text" href="#">X Comentários</a></div>`
+                );
+            }           
+        }
+
+
+        exibir();
+
+        $('#inputImg').on('change', loadimage);
         $("#inputBtn").click(function () {
-            var data = new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear();
+            var data = new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date()
+                .getFullYear();
             let campoNome = $("#inputNome").val();
             let campoTitulo = $("#inputTitulo").val();
             let campoCorpo = $('#inputCorpo').val();
-            let campoImagem = $('#inputImg').val();
+            let campoImagem = imgDataURI;
             let novoId = db.data[db.data.length - 1].id + 1;
             let novaPostagem = {
                 id: novoId,
@@ -115,16 +142,12 @@
             localStorage.setItem('db', JSON.stringify(db));
 
 
-            // Reexibe as postagens
-            for (i = 0; i < db.data.length; i++) {
-                let postagem = db.data[i];
-                $("#main").append(
-                    `<article class="uk-article"><h1 class="uk-article-title">${postagem.titulo}</h1><p class="uk-article-meta">Escrito por ${postagem.nome} em ${postagem.data}.<div class="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light"data-src="${postagem.imagem}" uk-img></div><p class="uk-text-lead">${postagem.corpo}</p><div class="uk-grid-small uk-child-width-auto" uk-grid><div><button class="uk-button uk-button-text"><i uk-icon="heart">${postagem.likes} </i></button></div><div><a class="more" class="uk-button uk-button-text" href="#">X Comentários</a></div>`
-                );
-            }
+            exibir();
 
             //Limpa o formulario
             $("#form-postagem")[0].reset();
+
+            UIkit.dropdown($('#form-postagem-container')).hide();
         });
     </script>
 
