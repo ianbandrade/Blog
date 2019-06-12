@@ -137,8 +137,8 @@
                             class="uk-textarea uk-form-large" id="comentario-inputComentario"
                 placeholder="Digite seu comentário"></textarea></div>
             <br>
-        <div id=""><button id="comentario-inputBtn" type="button"
-            class="uk-align-center uk-width-1-4 uk-button-small uk-button-primary">Comentar</button>
+        <div id=""><button type="button"
+            class="comentario-inputBtn uk-align-center uk-width-1-4 uk-button-small uk-button-primary" data-id="${postagem.id}">Comentar</button>
         </div> 
         <br>       
     </form>
@@ -165,8 +165,24 @@
                 localStorage.setItem('db', JSON.stringify(db));
                 exibir();
             });
+            $('.comentario-inputBtn').on('click', function (event) {
+                var data = new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date()
+                    .getFullYear();
+                let campoNome = $("#comentario-inputNome").val();
+                let campoComentario = $('#comentario-inputComentario').val();
+                let novoComentario = {
+                    autor: campoNome,
+                    comentario: campoComentario,
+                    data: data
+                }
+                event.preventDefault();
+                console.log($(this).data('id'));
+                db.data.find(postagem => postagem.id == $(this).data('id')).comentarios.push(novoComentario);
+                console.log(db);
+                localStorage.setItem('db', JSON.stringify(db));
+                exibir();
+            });
         }
-
         exibir();
 
         $('#inputImg').on('change', loadimage);
