@@ -43,9 +43,8 @@
                 </form>
             </div>
         </div>
-        <main id="main">
 
-        </main>
+        <main id="main"></main>
         <!-- <article class="uk-article">
 
             <h1 class="uk-article-title">Título</h1>
@@ -110,11 +109,10 @@
             let sortDB = db.data.sort(function (a, b) {
                 return b.id - a.id
             });
-            $("main").html(``);
+            $("main").html(`<br>`);
             for (i = 0; i < db.data.length; i++) {
                 let postagem = sortDB[i];
-                $("#main").append(
-                    `<article class="uk-article">
+                $("#main").append(`<article class="uk-article">
     <h1 class="uk-article-title">${postagem.titulo}</h1>
     <p class="uk-article-meta">Escrito por ${postagem.nome} em ${postagem.data}.</p>
     <div class="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light"
@@ -129,6 +127,22 @@
                 Comentário(s)</button>
         </div>
     </div>
+    <a id="comentarioBtn">Novo comentário</a>
+
+    <form id="form-postagem">
+        <br>
+        <div id=""><label for="comentario-inputNome">Nome </label><input type="text" id="comentario-inputNome" placeholder="Insira seu nome">
+        </div>
+        <div id=""><label for="comentario-inputComentario">Comentário</label><textarea type="text"
+                            class="uk-textarea uk-form-large" id="comentario-inputComentario"
+                placeholder="Digite seu comentário"></textarea></div>
+            <br>
+        <div id=""><button id="comentario-inputBtn" type="button"
+            class="uk-align-center uk-width-1-4 uk-button-small uk-button-primary">Comentar</button>
+        </div> 
+        <br>       
+    </form>
+
 </article>
 <div id="comentarios-${postagem.id}"></div>`);
                 if (postagem.comentarios.length != undefined) {
