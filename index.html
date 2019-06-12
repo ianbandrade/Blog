@@ -185,7 +185,7 @@
                     pos: 'top-right'
                 });
                 $(`.form-comentario[data-id=${$(this).data('id')}]`).hide();
-                $(`.comentarioBtn[data-id=${$(this).data('id')}]`).show(); 
+                $(`.comentarioBtn[data-id=${$(this).data('id')}]`).show();
                 comentario();
             });
         }
@@ -229,14 +229,15 @@
             UIkit.dropdown($('#form-postagem-container')).hide();
 
         });
-        $('.form-comentario').hide();
+
         function comentario() {
-        $(".comentarioBtn").click(function () {
-            $(`.form-comentario[data-id=${$(this).data('id')}]`).show();
-            $(`.comentarioBtn[data-id=${$(this).data('id')}]`).hide();
-        });
-    }
-    comentario();
+            $('.form-comentario').hide();
+            $(".comentarioBtn").click(function () {
+                $(`.form-comentario[data-id=${$(this).data('id')}]`).show();
+                $(`.comentarioBtn[data-id=${$(this).data('id')}]`).hide();
+            });
+        }
+        comentario();
     </script>
 
 </body>
