@@ -176,11 +176,13 @@
                     data: data
                 }
                 event.preventDefault();
-                console.log($(this).data('id'));
                 db.data.find(postagem => postagem.id == $(this).data('id')).comentarios.push(novoComentario);
-                console.log(db);
                 localStorage.setItem('db', JSON.stringify(db));
                 exibir();
+                UIkit.notification('Comentario adicionado', {
+                    status: 'success',
+                    pos: 'top-right'
+                });
             });
         }
         exibir();
@@ -206,7 +208,10 @@
             };
             // Insere o novo objeto no array
             db.data.push(novaPostagem);
-            alert("Postagem adicionada com sucesso");
+            UIkit.notification('Postagem adicionada com sucesso', {
+                status: 'success',
+                pos: 'top-right'
+            });
 
             // Atualiza os dados no Local Storage
             localStorage.setItem('db', JSON.stringify(db));
@@ -218,6 +223,7 @@
             $("#form-postagem")[0].reset();
 
             UIkit.dropdown($('#form-postagem-container')).hide();
+
         });
     </script>
 
