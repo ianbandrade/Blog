@@ -89,6 +89,7 @@
     </div>
 
     <script>
+        $('.form-comentario').hide();
         var db = JSON.parse(localStorage.getItem('db'));
         if (!db) {
             db = dbfake
@@ -127,9 +128,9 @@
                 Comentário(s)</button>
         </div>
     </div>
-    <a id="comentarioBtn">Novo comentário</a>
+    <a class="comentarioBtn" data-id="${postagem.id}">Novo comentário</a>
 
-    <form id="form-postagem">
+    <form class="form-comentario" data-id="${postagem.id}">
         <br>
         <div id=""><label for="comentario-inputNome">Nome </label><input type="text" id="comentario-inputNome" placeholder="Insira seu nome">
         </div>
@@ -183,6 +184,9 @@
                     status: 'success',
                     pos: 'top-right'
                 });
+                $(`.form-comentario[data-id=${$(this).data('id')}]`).hide();
+                $(`.comentarioBtn[data-id=${$(this).data('id')}]`).show(); 
+                comentario();
             });
         }
         exibir();
@@ -225,6 +229,14 @@
             UIkit.dropdown($('#form-postagem-container')).hide();
 
         });
+        $('.form-comentario').hide();
+        function comentario() {
+        $(".comentarioBtn").click(function () {
+            $(`.form-comentario[data-id=${$(this).data('id')}]`).show();
+            $(`.comentarioBtn[data-id=${$(this).data('id')}]`).hide();
+        });
+    }
+    comentario();
     </script>
 
 </body>
