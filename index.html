@@ -2,136 +2,117 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="node_modules/uikit/dist/css/uikit.min.css">
-    <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="node_modules/uikit/dist/js/uikit.min.js"></script>
-    <script src="node_modules/uikit/dist/js/uikit-icons.min.js"></script>
-    <script src="fakedb.js"></script>
-    <title>Blog</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="node_modules/uikit/dist/css/uikit.min.css" />
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="node_modules/uikit/dist/js/uikit.min.js"></script>
+  <script src="node_modules/uikit/dist/js/uikit-icons.min.js"></script>
+  <script src="FakeDB.js"></script>
+  <title>Blog</title>
 </head>
 
-<body>
+<body >
+  <div class="uk-card-default uk-container uk-container-expand uk-padding-small" class="container" style="z-index: 980;"
+    uk-sticky="bottom: #offset">
+    <img class="uk-position-top" id="logo" src="imgs/b.png" alt="" />
+  </div>
 
-    <div class="uk-card-default uk-container uk-container-expand uk-padding-small" class="container"
-        style="z-index: 980;" uk-sticky="bottom: #offset"><img class="uk-position-top" id="logo" src="imgs/b.png"
-            alt="">
+  <br />
+
+  <div class="uk-container uk-container-small">
+    <div class="uk-inline uk-width-1-1">
+      <button type="button" class="uk-width-1-1 uk-button-large uk-button-primary">
+        Nova Postagem
+      </button>
+      <div id="form-postagem-container" uk-dropdown="mode: click" class="uk-width-1-1">
+        <form id="form-postagem">
+          <div id="">
+            <label for="inputNome">Nome </label><input type="text" id="inputNome" placeholder="Insira seu nome" />
+          </div>
+
+          <div id="">
+            <label for="inputTitulo">Título </label><input type="text" id="inputTitulo"
+              placeholder="Insira o título da postagem" />
+          </div>
+
+          <div id="">
+            <label for="inputCorpo">Postagem </label><textarea type="text" class="uk-textarea uk-form-large"
+              id="inputCorpo" placeholder="Insira o conteúdo da postagem"></textarea>
+          </div>
+          <div id="">
+            <label for="inputImg">Imagem </label><input type="file" id="inputImg" />
+          </div>
+          <br />
+          <div id="">
+            <button id="inputBtn" type="button" class="uk-align-center uk-width-1-2 uk-button-large
+                uk-button-primary">
+              Publicar
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
 
-    <br>
+    <main id="main"></main>
+  </div>
 
-    <div class="uk-container uk-container-small">
-        <div class="uk-inline uk-width-1-1">
-            <button type="button" class="uk-width-1-1 uk-button-large uk-button-primary">Nova Postagem</button>
-            <div id="form-postagem-container" uk-dropdown="mode: click" class="uk-width-1-1">
-                <form id="form-postagem">
-                    <div id=""><label for="inputNome">Nome </label><input type="text" id="inputNome"
-                            placeholder="Insira seu nome"></div>
-                    <div id=""><label for="inputTitulo">Título </label><input type="text" id="inputTitulo"
-                            placeholder="Insira o título da postagem"></div>
-                    <div id=""><label for="inputCorpo">Postagem </label><textarea type="text"
-                            class="uk-textarea uk-form-large" id="inputCorpo"
-                            placeholder="Insira o conteúdo da postagem"></textarea></div>
-                    <div id=""><label for="inputImg">Imagem </label><input type="file" id="inputImg"></div>
-                    <br>
-                    <div id=""><button id="inputBtn" type="button"
-                            class="uk-align-center uk-width-1-2 uk-button-large uk-button-primary">Publicar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+  <script>
+    $(".form-comentario").hide();
+    var db = JSON.parse(localStorage.getItem("db"));
+    if (!db) {
+      db = IanBittencourt_and_IanGuelman;
+    }
 
-        <main id="main"></main>
-        <!-- <article class="uk-article">
+    let imgDataURI = "";
 
-            <h1 class="uk-article-title">Título</h1>
+    function loadimage(e1) {
+      var filename = e1.target.files[0];
+      var fr = new FileReader();
+      fr.onload = imageHandler => {
+        imgDataURI = imageHandler.target.result;
+      };
+      fr.readAsDataURL(filename);
+    }
 
-            <p class="uk-article-meta">Escrito por "USER" em "DATA".
-
-                <div class="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light"
-                    data-src="imgs/lago.jpg" uk-img></div>
-
-                <p class="uk-text-lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip.</p>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum.</p>
-
-                <div class="uk-grid-small uk-child-width-auto" uk-grid>
-                    <div>
-                        <a class="uk-button uk-button-text" href=""><i href="#" uk-icon="heart">X </i></a>
-                    </div>
-                    <div>
-                        <a class="more" class="uk-button uk-button-text" href="#">X Comentários</a>
-                    </div>
-
-                    <div class="comments" class="uk-card uk-card-default uk-width-xxlarge uk-align-center">
-                        <div class="uk-card-header">
-                            <h3>NOME</h3>
-                            <p>DATA</p>
-                        </div>
-                        <img data-src="imgs/lago.jpg" width="700" height="100" alt="" class="uk-align-left" uk-img>
-                        <div class="uk-card-body">
-                            <br>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt.</p>
-                        </div>
-                    </div>
-                </div>
-        </article> -->
-    </div>
-
-    <script>
-        $('.form-comentario').hide();
-        var db = JSON.parse(localStorage.getItem('db'));
-        if (!db) {
-            db = dbfake
-        };
-
-        let imgDataURI = "";
-
-        function loadimage(e1) {
-            var filename = e1.target.files[0];
-            var fr = new FileReader();
-            fr.onload = (imageHandler) => {
-                imgDataURI = imageHandler.target.result
-            };
-            fr.readAsDataURL(filename);
-        }
-
-        function exibir() {
-            let sortDB = db.data.sort(function (a, b) {
-                return b.id - a.id
-            });
-            $("main").html(`<br>`);
-            for (i = 0; i < db.data.length; i++) {
-                let postagem = sortDB[i];
-                $("#main").append(`<article class="uk-article">
+    function exibir() {
+      let sortDB = db.data.sort(function (a, b) {
+        return b.id - a.id;
+      });
+      $("main").html(`<br>`);
+      for (i = 0; i < db.data.length; i++) {
+        let postagem = sortDB[i];
+        $("#main").append(`<article class="uk-article">
     <h1 class="uk-article-title">${postagem.titulo}</h1>
-    <p class="uk-article-meta">Escrito por ${postagem.nome} em ${postagem.data}.</p>
+    <p class="uk-article-meta">Escrito por ${postagem.nome} em ${
+          postagem.data
+          }.</p>
     <div class="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light"
         data-src="${postagem.imagem}" uk-img></div>
     <p class="uk-text-lead">${postagem.corpo}</p>
     <div class="uk-grid-small uk-child-width-auto" uk-grid>
         <div>
-            <button class="btn-like uk-button uk-button-text" data-id="${postagem.id}"><i
+            <button class="btn-like uk-button uk-button-text" data-id="${
+          postagem.id
+          }"><i
                     uk-icon="heart">${postagem.likes} </i></button></div>
         <div>
-            <button type="button" class="uk-button uk-button-text">${postagem.comentarios.length}
+            <button type="button" class="uk-button uk-button-text">${
+          postagem.comentarios.length
+          }
                 Comentário(s)</button>
         </div>
     </div>
-    <a class="comentarioBtn" data-id="${postagem.id}">Novo comentário</a>
+    
+    <ul uk-accordion> 
+    <li>
+      <a class="uk-accordion-title" class="comentarioBtn" data-id="${postagem.id}">Novo comentário</a>
+        <div class="uk-accordion-content">
+           
+          <form class="uk-container uk-container-small" class="form-comentario" data-id="${postagem.id}" >
 
-    <form class="form-comentario" data-id="${postagem.id}">
-        <br>
         <div id=""><label for="comentario-inputNome">Nome </label><input type="text" id="comentario-inputNome" placeholder="Insira seu nome">
         </div>
         <div id=""><label for="comentario-inputComentario">Comentário</label><textarea type="text"
@@ -139,107 +120,125 @@
                 placeholder="Digite seu comentário"></textarea></div>
             <br>
         <div id=""><button type="button"
-            class="comentario-inputBtn uk-align-center uk-width-1-4 uk-button-small uk-button-primary" data-id="${postagem.id}">Comentar</button>
+            class="comentario-inputBtn uk-align-center uk-width-1-4 uk-button-small uk-button-primary" data-id="${
+          postagem.id
+          }">Comentar</button>
         </div> 
         <br>       
     </form>
-
+        </div>
+    </li>
 </article>
+
+<br>
+
 <div id="comentarios-${postagem.id}"></div>`);
-                if (postagem.comentarios.length != undefined) {
-                    for (j = 0; j < postagem.comentarios.length; j++) {
-                        $(`#comentarios-${postagem.id}`).append(`<article class="uk-comment uk-comment-primary" id="comentarios-${postagem.id}">
+        if (postagem.comentarios.length != undefined) {
+          for (j = 0; j < postagem.comentarios.length; j++) {
+            $(`#comentarios-${postagem.id}`)
+              .append(`<article class="uk-comment uk-comment-primary" id="comentarios-${
+                postagem.id
+                }">
     <header class="uk-comment-header">
-        <h5 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">${postagem.comentarios[j].autor} em
+        <h5 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">${
+                postagem.comentarios[j].autor
+                } em
                 ${postagem.comentarios[j].data}</a></h5>
     </header>
     <div class="uk-comment-body">
         <p>${postagem.comentarios[j].comentario}</p>
     </div> <hr>
 </article>`);
-                    }
-                }
-            }
-            $('.btn-like').on('click', function (event) {
-                event.preventDefault();
-                db.data.find(postagem => postagem.id == $(this).data('id')).likes++;
-                localStorage.setItem('db', JSON.stringify(db));
-                exibir();
-            });
-            $('.comentario-inputBtn').on('click', function (event) {
-                var data = new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date()
-                    .getFullYear();
-                let campoNome = $("#comentario-inputNome").val();
-                let campoComentario = $('#comentario-inputComentario').val();
-                let novoComentario = {
-                    autor: campoNome,
-                    comentario: campoComentario,
-                    data: data
-                }
-                event.preventDefault();
-                db.data.find(postagem => postagem.id == $(this).data('id')).comentarios.push(novoComentario);
-                localStorage.setItem('db', JSON.stringify(db));
-                exibir();
-                UIkit.notification('Comentario adicionado', {
-                    status: 'success',
-                    pos: 'top-right'
-                });
-                $(`.form-comentario[data-id=${$(this).data('id')}]`).hide();
-                $(`.comentarioBtn[data-id=${$(this).data('id')}]`).show();
-                comentario();
-            });
+          }
         }
+      }
+      $(".btn-like").on("click", function (event) {
+        event.preventDefault();
+        db.data.find(postagem => postagem.id == $(this).data("id")).likes++;
+        localStorage.setItem("db", JSON.stringify(db));
         exibir();
-
-        $('#inputImg').on('change', loadimage);
-        $("#inputBtn").click(function () {
-            var data = new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date()
-                .getFullYear();
-            let campoNome = $("#inputNome").val();
-            let campoTitulo = $("#inputTitulo").val();
-            let campoCorpo = $('#inputCorpo').val();
-            let campoImagem = imgDataURI;
-            let novoId = db.data[0].id + 1;
-            let novaPostagem = {
-                id: novoId,
-                data: data,
-                nome: campoNome,
-                titulo: campoTitulo,
-                corpo: campoCorpo,
-                imagem: campoImagem,
-                comentarios: [],
-                likes: 0
-            };
-            // Insere o novo objeto no array
-            db.data.push(novaPostagem);
-            UIkit.notification('Postagem adicionada com sucesso', {
-                status: 'success',
-                pos: 'top-right'
-            });
-
-            // Atualiza os dados no Local Storage
-            localStorage.setItem('db', JSON.stringify(db));
-
-
-            exibir();
-
-            //Limpa o formulario
-            $("#form-postagem")[0].reset();
-
-            UIkit.dropdown($('#form-postagem-container')).hide();
-
+      });
+      $(".comentario-inputBtn").on("click", function (event) {
+        var data =
+          new Date().getDate() +
+          "/" +
+          (new Date().getMonth() + 1) +
+          "/" +
+          new Date().getFullYear();
+        let campoNome = $("#comentario-inputNome").val();
+        let campoComentario = $("#comentario-inputComentario").val();
+        let novoComentario = {
+          autor: campoNome,
+          comentario: campoComentario,
+          data: data
+        };
+        event.preventDefault();
+        db.data
+          .find(postagem => postagem.id == $(this).data("id"))
+          .comentarios.push(novoComentario);
+        localStorage.setItem("db", JSON.stringify(db));
+        exibir();
+        UIkit.notification("Comentario adicionado", {
+          status: "success",
+          pos: "top-right"
         });
-
-        function comentario() {
-            $('.form-comentario').hide();
-            $(".comentarioBtn").click(function () {
-                $(`.form-comentario[data-id=${$(this).data('id')}]`).show();
-                $(`.comentarioBtn[data-id=${$(this).data('id')}]`).hide();
-            });
-        }
+        $(`.form-comentario[data-id=${$(this).data("id")}]`).hide();
+        $(`.comentarioBtn[data-id=${$(this).data("id")}]`).show();
         comentario();
-    </script>
+      });
+    }
+    exibir();
 
+    $("#inputImg").on("change", loadimage);
+    $("#inputBtn").click(function () {
+      var data =
+        new Date().getDate() +
+        "/" +
+        (new Date().getMonth() + 1) +
+        "/" +
+        new Date().getFullYear();
+      let campoNome = $("#inputNome").val();
+      let campoTitulo = $("#inputTitulo").val();
+      let campoCorpo = $("#inputCorpo").val();
+      let campoImagem = imgDataURI;
+      let novoId = db.data[0].id + 1;
+      let novaPostagem = {
+        id: novoId,
+        data: data,
+        nome: campoNome,
+        titulo: campoTitulo,
+        corpo: campoCorpo,
+        imagem: campoImagem,
+        comentarios: [],
+        likes: 0
+      };
+      // Insere o novo objeto no array
+      db.data.push(novaPostagem);
+      UIkit.notification("Postagem adicionada com sucesso", {
+        status: "success",
+        pos: "top-right"
+      });
+
+      // Atualiza os dados no Local Storage
+      localStorage.setItem("db", JSON.stringify(db));
+
+      exibir();
+
+      //Limpa o formulario
+      $("#form-postagem")[0].reset();
+
+      UIkit.dropdown($("#form-postagem-container")).hide();
+    });
+
+    function comentario() {
+      $(".form-comentario").hide();
+      $(".comentarioBtn").click(function () {
+        $(`.form-comentario[data-id=${$(this).data("id")}]`).show();
+        $(`.comentarioBtn[data-id=${$(this).data("id")}]`).hide();
+      });
+    }
+    comentario();
+  </script>
 </body>
 
 </html>
