@@ -173,7 +173,7 @@
           data: data
         };
         event.preventDefault();
-        IanBittencourt_and_IanGuelman.data
+        db.data
           .find(postagem => postagem.id == $(this).data("id"))
           .comentarios.push(novoComentario);
         localStorage.setItem("db", JSON.stringify(db));
