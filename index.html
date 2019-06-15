@@ -140,10 +140,10 @@
                 postagem.id
                 }">
     <header class="uk-comment-header">
-        <h5 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset">${
+        <h5 class="uk-comment-title uk-margin-remove"><p class="uk-link-reset">${
                 postagem.comentarios[j].autor
                 } em
-                ${postagem.comentarios[j].data}</a></h5>
+                ${postagem.comentarios[j].data}</p></h5>
     </header>
     <div class="uk-comment-body">
         <p>${postagem.comentarios[j].comentario}</p>
@@ -173,7 +173,7 @@
           data: data
         };
         event.preventDefault();
-        db.data
+        IanBittencourt_and_IanGuelman.data
           .find(postagem => postagem.id == $(this).data("id"))
           .comentarios.push(novoComentario);
         localStorage.setItem("db", JSON.stringify(db));
