@@ -10,18 +10,17 @@
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
   <script src="node_modules/uikit/dist/js/uikit.min.js"></script>
   <script src="node_modules/uikit/dist/js/uikit-icons.min.js"></script>
+  <script src="https://kit.fontawesome.com/7cbe446b47.js"></script>
   <script src="FakeDB.js"></script>
   <title>Blog</title>
 </head>
 
-<body >
+<body>
   <div class="uk-card-default uk-container uk-container-expand uk-padding-small" class="container" style="z-index: 980;"
     uk-sticky="bottom: #offset">
     <img class="uk-position-top" id="logo" src="imgs/logo.png" alt="" />
   </div>
-
-  <br />
-
+  <br>
   <div class="uk-container uk-container-small">
     <div class="uk-inline uk-width-1-1">
       <button type="button" class="uk-width-1-1 uk-button-large uk-button-primary">
@@ -55,9 +54,19 @@
         </form>
       </div>
     </div>
-
     <main id="main"></main>
   </div>
+  <br>
+  <footer class="uk-background-muted">
+    <br><br>
+    <div class="uk-position-center uk-position-relative">
+      <a href="https://github.com/ianbandrade/Blog" target="_blank" class="uk-link-heading"><i
+          class="fab fa-github fa-3x"></i>
+        <p class="uk-display-inline"> Codigo
+          deste Blog no GitHub</p>
+      </a>
+    </div>
+  </footer>
 
   <script>
     $(".form-comentario").hide();
