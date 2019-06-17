@@ -113,10 +113,10 @@
            
           <form class="uk-container uk-container-small" class="form-comentario" data-id="${postagem.id}" >
 
-        <div id=""><label for="comentario-inputNome">Nome </label><input type="text" id="comentario-inputNome" placeholder="Insira seu nome">
+        <div id=""><label for="comentario-inputNome-${postagem.id}">Nome </label><input type="text" id="comentario-inputNome-${postagem.id}" data-id="${postagem.id}" placeholder="Insira seu nome">
         </div>
-        <div id=""><label for="comentario-inputComentario">Comentário</label><textarea type="text"
-                            class="uk-textarea uk-form-large" id="comentario-inputComentario"
+        <div id=""><label for="comentario-inputComentario-${postagem.id}">Comentário</label><textarea type="text"
+                            class="uk-textarea uk-form-large" id="comentario-inputComentario-${postagem.id}" data-id="${postagem.id}"
                 placeholder="Digite seu comentário"></textarea></div>
             <br>
         <div id=""><button type="button"
@@ -165,8 +165,8 @@
           (new Date().getMonth() + 1) +
           "/" +
           new Date().getFullYear();
-        let campoNome = $("#comentario-inputNome").val();
-        let campoComentario = $("#comentario-inputComentario").val();
+        let campoNome = $(`#comentario-inputNome-${$(this).data("id")}`).val();
+        let campoComentario = $(`#comentario-inputComentario-${$(this).data("id")}`).val();
         let novoComentario = {
           autor: campoNome,
           comentario: campoComentario,
