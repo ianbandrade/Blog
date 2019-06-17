@@ -61,9 +61,9 @@
 
   <script>
     $(".form-comentario").hide();
-    var db = JSON.parse(localStorage.getItem("db"));
+    var db = JSON.parse(localStorage.getItem("db_IanBittencourt_IanGuelman"));
     if (!db) {
-      db = IanBittencourt_and_IanGuelman;
+      db = db_IanBittencourt_IanGuelman;
     }
 
     let imgDataURI = "";
@@ -155,7 +155,7 @@
       $(".btn-like").on("click", function (event) {
         event.preventDefault();
         db.data.find(postagem => postagem.id == $(this).data("id")).likes++;
-        localStorage.setItem("db", JSON.stringify(db));
+        localStorage.setItem("db_IanBittencourt_IanGuelman", JSON.stringify(db));
         exibir();
       });
       $(".comentario-inputBtn").on("click", function (event) {
@@ -176,7 +176,7 @@
         db.data
           .find(postagem => postagem.id == $(this).data("id"))
           .comentarios.push(novoComentario);
-        localStorage.setItem("db", JSON.stringify(db));
+        localStorage.setItem("db_IanBittencourt_IanGuelman", JSON.stringify(db));
         exibir();
         UIkit.notification("Comentario adicionado", {
           status: "success",
@@ -220,7 +220,7 @@
       });
 
       // Atualiza os dados no Local Storage
-      localStorage.setItem("db", JSON.stringify(db));
+      localStorage.setItem("db_IanBittencourt_IanGuelman", JSON.stringify(db));
 
       exibir();
 
